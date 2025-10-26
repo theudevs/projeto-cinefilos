@@ -10,9 +10,8 @@ function carregarSessoes() {
 
     sessoes.forEach((sessao, index) => {
         const option = document.createElement('option');
-
         option.value = index; 
-
+        
         const dataFormatada = new Date(sessao.dataHora).toLocaleString('pt-BR', {
             dateStyle: 'short',
             timeStyle: 'short'
@@ -21,10 +20,18 @@ function carregarSessoes() {
         option.textContent = `${sessao.filme} (${sessao.sala}) - ${dataFormatada}`;
         selectSessao.appendChild(option);
     });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessaoIndex = urlParams.get('sessaoIndex');
+
+    if (sessaoIndex !== null && sessaoIndex < sessoes.length) {
+        selectSessao.value = sessaoIndex;
+    }
+
 }
 
 form.addEventListener('submit', (event) => {
-    event.preventDefault();
+    event.preventDefault(); 
 
     const sessaoIndex = selectSessao.value;
     const nome = document.getElementById('nome').value;
